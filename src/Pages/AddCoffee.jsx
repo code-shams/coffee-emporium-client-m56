@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import coffeeBg from "../assets/more/addCoffeebg.png";
+import Swal from "sweetalert2";
 import { FaArrowLeft } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
@@ -21,51 +22,33 @@ const AddCoffee = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const form = e.target;
-        const name = form.name.value;
-        if (!name) {
-            toast.error("Please provide a name");
-            return;
-        }
-        const chef = form.chef.value;
-        if (!chef) {
-            toast.error("Please provide a  chef");
-            return;
-        }
-        const supplier = form.supplier.value;
-        if (!name) {
-            toast.error("Please provide a supplier");
-            return;
-        }
-        const taste = form.taste.value;
-        if (!name) {
-            toast.error("Please provide a taste");
-            return;
-        }
-        const category = form.category.value;
-        if (!name) {
-            toast.error("Please provide a category");
-            return;
-        }
-        const details = form.details.value;
-        if (!name) {
-            toast.error("Please provide details");
-            return;
-        }
-        const photo = form.photo.value;
-        if (!name) {
-            toast.error("Please provide a photo url");
-            return;
+
+        const formData = new FormData(form);
+
+        const newCoffee = Object.fromEntries(formData.entries());
+
+        for (const key in newCoffee) {
+            if (!newCoffee[key]) {
+                toast.error(`${key} field cannot be empty`);
+                return;
+            }
         }
 
-        console.log({
-            name,
-            chef,
-            supplier,
-            taste,
-            category,
-            details,
-            photo,
-        });
+        fetch("http://localhost:3000/coffee", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(newCoffee),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("after sending data to server", data);
+                Swal.fire({
+                    title: "Successfully added coffee",
+                    icon: "success",
+                });
+            });
     };
 
     return (
@@ -145,16 +128,16 @@ const AddCoffee = () => {
                         {/* Supplier field */}
                         <div>
                             <label
-                                htmlFor="supplier"
+                                htmlFor="price"
                                 className="block text-[#1B1A1A] font-medium mb-2"
                             >
-                                Supplier
+                                Price
                             </label>
                             <input
                                 type="text"
-                                id="supplier"
-                                name="supplier"
-                                placeholder="Enter coffee supplier"
+                                id="price"
+                                name="price"
+                                placeholder="Enter coffee price"
                                 className="input border-0 w-full bg-white"
                             />
                         </div>

@@ -11,7 +11,7 @@ const Header = () => {
                 backgroundSize: "cover",
             }}
         >
-            <div className="flex gap-3 items-center justify-center py-3 max-w-[1920px] mx-auto">
+            <div className="flex gap-3 items-center justify-center py-2 max-w-[1920px] mx-auto">
                 <img className="w-20" src={navLogo} alt="" />
                 <h1 className="pri-font text-6xl  text-white">
                     Espresso Emporium
